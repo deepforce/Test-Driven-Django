@@ -26,4 +26,4 @@ class NewVistorTest(unittest.TestCase):
         # He was satisfried and went to sleep
         
 if __name__ == '__main__':
-    unittest.main(warnings='ignore')
+    unittest.main()
