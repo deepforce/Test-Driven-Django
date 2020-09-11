@@ -1,8 +1,8 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
-class NewVistorTest(unittest.TestCase):
+class NewVistorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
     def tearDown(self):
@@ -14,7 +14,7 @@ class NewVistorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Someone heard about a list application
         # He went to the home page of this application
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         # He noticed the title and header containing a word "To-Do"
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
@@ -48,6 +48,3 @@ class NewVistorTest(unittest.TestCase):
         self.fail('Finish the test!')
         # He accessed that URL and found his list was still there
         # He was satisfried and went to sleep
-        
-if __name__ == '__main__':
-    unittest.main()
