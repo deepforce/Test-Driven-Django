@@ -20,9 +20,8 @@ class NewVistorTest(LiveServerTestCase):
             except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time > MAX_WAIT:
                     raise e
-                time.sleep(0.5)
-        
-        
+                time.sleep(0.5) 
+    
     def test_can_start_a_list_for_one_user(self):
         # Someone heard about a list application
         # He went to the home page of this application
@@ -101,3 +100,26 @@ class NewVistorTest(LiveServerTestCase):
         self.assertIn('Buy milk', page_text)
 
         # Satisfied, they both go back to sleep
+
+    def test_layout_styling(self):
+        # Edith visit home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+        # She saw the input box perfectly vertically aligh
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+        # She starts a new list and sees the input is nicely
+        # centered there too
+        inputbox.send_keys('testing')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: testing')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
